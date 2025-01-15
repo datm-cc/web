@@ -129,10 +129,9 @@
       // Set cookie params and session info
       if (this.useCookies === true) {
         this.setCookieDomain(config.cookieDomain);
+        this.loadCookieData();
+        this.gaSessionId = config.gaSessionId || this.gaSessionId;
       }
-
-      // Load cookie data
-      this.loadCookieData();
 
       // Mark as initialized
       this.initialized = true;
@@ -389,8 +388,6 @@
 
       // Get External Cookies
       this.gaClientId = cookies._ga;
-
-      if (!this.useCookies) return;
 
       // Get Datm Cookies
       this.sessionId = cookies[this.sessionIdCookie];
