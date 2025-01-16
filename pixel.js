@@ -641,7 +641,8 @@
       }
       
       for (var key in secondaryObj) {
-        if (secondaryObj.hasOwnProperty(key) && secondaryObj[key] != null) {
+        if (Object.prototype.hasOwnProperty.call(secondaryObj, key) &&
+            secondaryObj[key] != null) {
           if (primaryObj[key] == null) {
             primaryObj[key] = secondaryObj[key];
           }
