@@ -1,5 +1,5 @@
 (function(window) {
-  var VERSION = '1.2';
+  var VERSION = '1.3';
 
   if (window.datm && window.datm.loaded) {
     return;
