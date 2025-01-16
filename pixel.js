@@ -1,5 +1,5 @@
 (function(window) {
-  var VERSION = '1.3';
+  var VERSION = '2.0';
 
   if (window.datm && window.datm.loaded) {
     return;
@@ -102,9 +102,10 @@
         return;
       }
 
-      var path = '/web';
+      var serverPath = '/web';
+      var versionPath = '/v' + VERSION.split('.')[0];
       this.serverDomain = domain;
-      this.baseUrl = 'https://' + domain + path;
+      this.baseUrl = 'https://' + domain + serverPath + versionPath;
 
       // Set optional config parameters if defined
       this.account = config.account;
