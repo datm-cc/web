@@ -131,6 +131,7 @@
         this.setCookieDomain(config.cookieDomain);
         this.loadCookieData();
         this.gaSessionId = config.gaSessionId || this.gaSessionId;
+        this.gaClientId = config.gaClientId || this.gaClientId;
       }
 
       // Mark as initialized
