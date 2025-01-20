@@ -336,7 +336,6 @@
 
       // Only extend session if by more than 60 seconds
       if (priorExpiration && newExpiration.getTime() < priorExpiration.getTime() + 60000) {
-        this.log('Not extending session; less than 60 seconds increase');
         return;
       }
 
