@@ -271,7 +271,7 @@
         xhr.open("POST", postUrl, true); //true for asynchronous request
         xhr.setRequestHeader("Content-Type", "text/plain");
         if (debug.preview_header) {
-          xhr.setRequestHeader("X-GTM-Server-Preview", debug.preview_header);
+          xhr.setRequestHeader("X-Gtm-Server-Preview", debug.preview_header);
         }
         xhr.send(payloadString);
       }
