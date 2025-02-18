@@ -263,7 +263,7 @@
       // Send request
       if (navigator.sendBeacon &&
           payloadString.length < this.maxBeaconSize &&
-          !debug.gtm_preview_header) {
+          !debug.preview_header) {
         navigator.sendBeacon(postUrl, payloadString);
       }
       else {

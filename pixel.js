@@ -1,12 +1,11 @@
 (function(window) {
-  var VERSION = '2.0';
 
   if (window.datm && window.datm.loaded) {
     return;
   }
 
   var tracker = {
-    version: VERSION,
+    version: '2.1',
     account: null,
     subAccount: null,
     script: true,
@@ -15,7 +14,7 @@
     initialized: false,
     maxBeaconSize: 14336,
     serverDomain: null,
-    baseUrl: null,
+    serverPath: '/web/v2',
     useCookies: true,
     cookieDomain: null,
     sessionId: null,
@@ -102,10 +101,7 @@
         return;
       }
 
-      var serverPath = '/web';
-      var versionPath = '/v' + VERSION.split('.')[0];
       this.serverDomain = domain;
-      this.baseUrl = 'https://' + domain + serverPath + versionPath;
 
       // Set optional config parameters if defined
       this.account = config.account;
@@ -120,12 +116,10 @@
       this.trackNewSession = config.trackNewSession || this.trackNewSession;
 
       this.useCookies = config.useCookies !== undefined ?
-        config.useCookies :
-        this.useCookies;
+        config.useCookies : this.useCookies;
 
       this.loggingEnabled = config.loggingEnabled !== undefined ?
-        config.loggingEnabled :
-        this.loggingEnabled;
+        config.loggingEnabled : this.loggingEnabled;
 
       // Set cookie params and session info
       if (this.useCookies === true) {
@@ -258,18 +252,27 @@
       // Convert payload to JSON
       var payloadString = JSON.stringify(payload);
 
-      // Add event name to URL
-      var postUrl = this.baseUrl + '?event=' + payload.event_name;
+      // Get debug config
+      var debug = payload.debug || {};
+
+      // Create full endpoint URL
+      var debugPath = debug.use_debug_endpoint ? '/debug' : '';
+      var postUrl = 'https://' + this.serverDomain + debugPath +
+        this.serverPath + '?event=' + payload.event_name;
 
       // Send request
-      if (navigator.sendBeacon && payloadString.length < this.maxBeaconSize) {
+      if (navigator.sendBeacon &&
+          payloadString.length < this.maxBeaconSize &&
+          !debug.preview_header) {
         navigator.sendBeacon(postUrl, payloadString);
       }
-
       else {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", postUrl, true); //true for asynchronous request
-        xhr.setRequestHeader("Content-Type", "text/plain");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        if (debug.preview_header) {
+          xhr.setRequestHeader("X-GTM-Preview", debug.preview_header);
+        }
         xhr.send(payloadString);
       }
     },
