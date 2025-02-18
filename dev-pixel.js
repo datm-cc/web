@@ -262,18 +262,15 @@
 
       // Send request
       if (navigator.sendBeacon &&
-          payloadString.length < this.maxBeaconSize &&
-          !debug.preview_header) {
+          payloadString.length < this.maxBeaconSize) {
         navigator.sendBeacon(postUrl, payloadString);
       }
-      else {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", postUrl, true); //true for asynchronous request
-        xhr.setRequestHeader("Content-Type", "text/plain");
-        if (debug.preview_header) {
-          xhr.setRequestHeader("X-Gtm-Server-Preview", debug.preview_header);
-        }
-        xhr.send(payloadString);
+      else if (window.fetch) {
+        fetch(postUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: payloadString,
+        });
       }
     },
 
