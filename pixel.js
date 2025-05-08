@@ -94,18 +94,19 @@
       this.log('Initializing Datm object');
 
       // Set required config parameters
-      var domain = config.serverDomain;
+      var domain = this.serverDomain = config.serverDomain || this.serverDomain;
 
       if (!domain) {
         this.log("Can't initialize.  Domain not provided");
         return;
       }
 
-      this.serverDomain = domain;
+      // Clear common data from prior initializations
+      this.commonParams = {};
 
       // Set optional config parameters if defined
-      this.account = config.account;
-      this.subAccount = config.subAccount;
+      this.account = config.account || this.account;
+      this.subAccount = config.subAccount || this.subAccount;
       this.sessionDuration = config.sessionDuration || this.sessionDuration;
       this.sessionIdCookie = config.sessionIdCookie || this.sessionIdCookie;
       this.clientIdCookie = config.clientIdCookie || this.clientIdCookie;
